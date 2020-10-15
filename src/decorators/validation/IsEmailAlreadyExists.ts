@@ -10,10 +10,9 @@ import User from '../../user/userEntity'
 @ValidatorConstraint({ async: true })
 export class IsUserAlreadyExistConstraint implements ValidatorConstraintInterface {
   async validate(email: string) {
-    const user = await User.find({ where: { email } })
-    console.log("IsUserAlreadyExistConstraint -> validate -> user", user)
-    if (!user) return false
-    return true
+    const user = await User.findOne({ where: { email } })
+    if (!user) return true
+    return false
   }
 }
 

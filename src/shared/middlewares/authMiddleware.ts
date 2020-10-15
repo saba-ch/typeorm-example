@@ -5,7 +5,7 @@ import User from '../../user/userEntity'
 
 import jwtService from '../services/jwtService'
 
-const customAuthChecker: AuthChecker<{ req: Request, user?: User }> = async ({ context }) => {
+const customAuthChecker: AuthChecker<{ req: Request, user?: User }> = async ({ context }, roles) => {
   let { authorization } = context.req.headers
   if (!authorization) throw new Error('Authorization header not provided')
 
@@ -17,6 +17,10 @@ const customAuthChecker: AuthChecker<{ req: Request, user?: User }> = async ({ c
 
     const user = await User.findOne({ id: parseInt(jwtPayload.id) })
     if (!user) throw new UnauthorizedError()
+    roles.forEach((role: string) => {
+      // @ts-ignore
+      if (!user[role]) throw new UnauthorizedError()
+    })
 
     context.user = user
     return true

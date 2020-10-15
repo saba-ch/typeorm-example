@@ -6,7 +6,7 @@ const hash = async (str: string) => {
 }
 
 const compare = async (str1: string, str2: string) => {
-  const isValid = await bcrypt.compare(str1, str2)
+  const isValid = await bcrypt.compare(str2, str1)
   return isValid
 }
 

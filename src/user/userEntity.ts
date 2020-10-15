@@ -21,6 +21,16 @@ class User extends BaseEntity {
   email: string
 
   @Field()
+  @Column('boolean', { nullable: true })
+  confirmed: boolean
+
+  @Column('text', { unique: true })
+  confirm_id: string
+
+  @Column('text', { nullable: true })
+  forgot_password_id: string
+
+  @Field()
   name(@Root() parent: User): string {
     return `${parent.firstName} ${parent.lastName}`
   }
