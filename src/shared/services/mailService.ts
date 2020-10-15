@@ -20,16 +20,14 @@ initializeWithTestAccount()
 
 const send = async (text: string): Promise<boolean> => {
   try {
-    let info = await transporter!.sendMail({
+    const info = await transporter!.sendMail({
       from: '"Fred Foo 👻" <foo@example.com>',
       to: "bar@example.com, baz@example.com",
       subject: "Hello ✔",
       text,
     })
-
-    console.log("Message sent: %s", info.messageId)
-
     console.log("Preview URL: %s", nodemailer.getTestMessageUrl(info))
+
     return true
   } catch (err) {
     console.error(err)
