@@ -1,31 +1,27 @@
-import { Arg, Ctx, Mutation, Query, Resolver } from 'type-graphql'
-import bcrypt from 'bcryptjs'
+import { Arg, Authorized, Ctx, Mutation, Query, Resolver } from 'type-graphql'
 
 import User from './userEntity'
-import { RegisterI } from './userTypes'
+import userService from './userService'
+
+import { RegisterI, AccessTokenI, LoginI } from './userTypes'
 import { Context } from '../types'
 
 @Resolver(User)
 class UserResolver {
-  @Query(() => String)
-  async user(@Ctx() ctx: Context): Promise<String> {
-    const userHeader = ctx.req.headers.authorization!
-
-    return userHeader
+  @Authorized()
+  @Query(() => User)
+  async user(@Ctx() ctx: Context): Promise<User> {
+    return ctx.user!
   }
 
-  @Mutation(() => User)
-  async register(@Arg('data') { email, firstName, lastName, password }: RegisterI): Promise<User> {
-    const hashedPassword = await bcrypt.hash(password, 12)
+  @Mutation(() => AccessTokenI)
+  async register(@Arg('data') data: RegisterI): Promise<AccessTokenI> {
+    return await userService.register(data)
+  }
 
-    const user = await User.create({
-      email,
-      firstName,
-      lastName,
-      password: hashedPassword
-    }).save()
-
-    return user
+  @Mutation(() => AccessTokenI)
+  async login(@Arg('data') data: LoginI): Promise<AccessTokenI> {
+    return await userService.login(data)
   }
 }
 
