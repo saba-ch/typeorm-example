@@ -5,7 +5,9 @@
   "author": "Saba Chikhinashvili",
   "license": "MIT",
   "scripts": {
-    "start": "ts-node-dev --poll src/index.ts"
+    "start": "NODE_ENV=development_local ts-node-dev --poll src/index.ts",
+    "start:dev": "NODE_ENV=development node dist/src/index.js",
+    "build:dev": "tsc --build"
   },
   "dependencies": {
     "apollo-server-express": "^2.18.2",
