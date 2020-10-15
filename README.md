@@ -3,6 +3,7 @@
 ## Basic Authorization Features:
 - register
 - login
+- confirm email
 - forgot password
 - recover password
 - query current user
