@@ -6,4 +6,5 @@ interface Context {
   req: Request
   user?: User
 }
+
 export default Context

@@ -21,16 +21,14 @@ initializeWithTestAccount()
 const send = async (text: string): Promise<boolean> => {
   try {
     let info = await transporter!.sendMail({
-      from: '"Fred Foo 👻" <foo@example.com>', // sender address
-      to: "bar@example.com, baz@example.com", // list of receivers
-      subject: "Hello ✔", // Subject line
-      text, // plain text body
+      from: '"Fred Foo 👻" <foo@example.com>',
+      to: "bar@example.com, baz@example.com",
+      subject: "Hello ✔",
+      text,
     })
 
     console.log("Message sent: %s", info.messageId)
-    // Message sent: <b658f8ca-6296-ccf4-8306-87d57a0b4321@example.com>
 
-    // Preview only available when sending through an Ethereal account
     console.log("Preview URL: %s", nodemailer.getTestMessageUrl(info))
     return true
   } catch (err) {
